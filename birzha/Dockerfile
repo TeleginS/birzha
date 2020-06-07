@@ -33,4 +33,6 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","ru.telegin.birzha.BirzhaApplication"]
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000","-cp","app:app/lib/*","ru.telegin.birzha.BirzhaApplication"]
+
+#,"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:7008"

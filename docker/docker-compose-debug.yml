@@ -12,8 +12,10 @@ services:
       dockerfile: ./Dockerfile
     expose:
       - "8080"
+      - "8000"
     ports:
-      - "8080:8000" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8000:8000" # port for debug
     restart: always
     depends_on: 
       - db # This service depends on mysql. Start that first.
