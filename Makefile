@@ -9,7 +9,7 @@ stop:
 up_dev:
 	${COMPOSE_DEV} up --build -d
 
-up_dev:
+stop_dev:
 	${COMPOSE_DEV} stop
 
 rebuild:

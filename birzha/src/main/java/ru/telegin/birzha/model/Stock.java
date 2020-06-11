@@ -1,8 +1,15 @@
 package ru.telegin.birzha.model;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import ru.telegin.birzha.model.audit.DateAudit;
+import ru.telegin.birzha.model.market.Market;
 
 @Entity
 @Table(name = "stock")
@@ -37,9 +46,25 @@ public class Stock extends DateAudit {
     @JoinColumn(name = "market_id", nullable = false)
     private Market market;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "stock_values", joinColumns = @JoinColumn(name = "stock_id"), inverseJoinColumns = @JoinColumn(name = "stock_value_id"))
-    private Set<StockValue> historyValues = new HashSet<>();
+    @OneToMany(
+            mappedBy = "stock",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 100)
+    private List<StockHistoryValues> historyValues = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "stock",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true
+    )
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 100)
+    private List<StockHistoryDividend> historyDividends = new ArrayList<>();
 
     public Stock() {
     }
@@ -84,11 +109,19 @@ public class Stock extends DateAudit {
         this.market = market;
     }
 
-    public Set<StockValue> getHistoryValues() {
+    public List<StockHistoryValues> getHistoryValues() {
         return historyValues;
     }
 
-    public void setHistoryValues(Set<StockValue> historyValues) {
+    public void setHistoryValues(List<StockHistoryValues> historyValues) {
         this.historyValues = historyValues;
+    }
+
+    public List<StockHistoryDividend> getHistoryDividends() {
+        return historyDividends;
+    }
+
+    public void setHistoryDividends(List<StockHistoryDividend> historyDividends) {
+        this.historyDividends = historyDividends;
     }
 }

@@ -1,4 +1,4 @@
-package ru.telegin.birzha.model;
+package ru.telegin.birzha.model.market;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -12,18 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "market")
-public class Market {
+@Table(name = "market_actions")
+public class MarketAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
     @NaturalId
-    @Column(length = 10)
-    private MarketName name;
+    @Column(length = 60)
+    private MarketActionName name;
 
-    public Market() {
+    public MarketAction() {
     }
 
     public Long getId() {
@@ -34,11 +34,11 @@ public class Market {
         this.id = id;
     }
 
-    public MarketName getName() {
+    public MarketActionName getName() {
         return name;
     }
 
-    public void setName(MarketName name) {
+    public void setName(MarketActionName name) {
         this.name = name;
     }
 }

@@ -1,6 +1,8 @@
-package ru.telegin.birzha.model;
+package ru.telegin.birzha.model.user;
 
 import org.hibernate.annotations.NaturalId;
+
+import ru.telegin.birzha.model.Role;
 import ru.telegin.birzha.model.audit.DateAudit;
 
 import javax.persistence.*;

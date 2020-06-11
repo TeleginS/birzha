@@ -1,4 +1,4 @@
-package ru.telegin.birzha.model;
+package ru.telegin.birzha.model.market;
 
 public enum MarketName {
     NYSE,

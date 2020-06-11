@@ -16,7 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.telegin.birzha.exception.AppException;
 import ru.telegin.birzha.model.Role;
 import ru.telegin.birzha.model.RoleName;
-import ru.telegin.birzha.model.User;
+import ru.telegin.birzha.model.user.User;
 import ru.telegin.birzha.payload.ApiResponse;
 import ru.telegin.birzha.payload.JwtAuthenticationResponse;
 import ru.telegin.birzha.payload.LoginRequest;
@@ -24,8 +24,12 @@ import ru.telegin.birzha.payload.SignUpRequest;
 import ru.telegin.birzha.repository.RoleRepository;
 import ru.telegin.birzha.repository.UserRepository;
 import ru.telegin.birzha.security.JwtTokenProvider;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
 
@@ -49,19 +53,21 @@ public class AuthController {
     JwtTokenProvider tokenProvider;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws IOException {
+        Stock stock = YahooFinance.get("SBERP.ME");
+        return ResponseEntity.ok(stock);
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+//        Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        loginRequest.getUsernameOrEmail(),
+//                        loginRequest.getPassword()
+//                )
+//        );
+//
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//        String jwt = tokenProvider.generateToken(authentication);
+//        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
     @PostMapping("/signup")
