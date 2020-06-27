@@ -42,6 +42,10 @@ public class UserStock extends DateAudit {
     @JoinColumn(name = "stock_id", nullable = false)
     private Stock stock;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public Long getId() {
         return id;
     }
@@ -80,5 +84,13 @@ public class UserStock extends DateAudit {
 
     public void setStock(Stock stock) {
         this.stock = stock;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

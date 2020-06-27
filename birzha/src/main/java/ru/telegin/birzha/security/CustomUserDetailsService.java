@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.telegin.birzha.model.user.User;
-import ru.telegin.birzha.repository.UserRepository;
+import ru.telegin.birzha.repository.user.UserRepository;
 
 import javax.transaction.Transactional;
 

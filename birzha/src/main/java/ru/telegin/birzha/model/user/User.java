@@ -46,6 +46,9 @@ public class User extends DateAudit {
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(mappedBy = "user_id", fetch = FetchType.LAZY)
+    private Set<UserStock> stocks;
+
     public User() {
     }
 
@@ -111,5 +114,13 @@ public class User extends DateAudit {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<UserStock> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(Set<UserStock> stocks) {
+        this.stocks = stocks;
     }
 }

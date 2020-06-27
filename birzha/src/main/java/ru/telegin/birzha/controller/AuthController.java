@@ -22,10 +22,8 @@ import ru.telegin.birzha.payload.JwtAuthenticationResponse;
 import ru.telegin.birzha.payload.LoginRequest;
 import ru.telegin.birzha.payload.SignUpRequest;
 import ru.telegin.birzha.repository.RoleRepository;
-import ru.telegin.birzha.repository.UserRepository;
+import ru.telegin.birzha.repository.user.UserRepository;
 import ru.telegin.birzha.security.JwtTokenProvider;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
 import javax.validation.Valid;
 
@@ -54,20 +52,17 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) throws IOException {
-        Stock stock = YahooFinance.get("SBERP.ME");
-        return ResponseEntity.ok(stock);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsernameOrEmail(),
+                        loginRequest.getPassword()
+                )
+        );
 
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        loginRequest.getUsernameOrEmail(),
-//                        loginRequest.getPassword()
-//                )
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        String jwt = tokenProvider.generateToken(authentication);
-//        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
     @PostMapping("/signup")

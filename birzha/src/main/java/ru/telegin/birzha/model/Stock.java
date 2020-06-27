@@ -27,7 +27,7 @@ import ru.telegin.birzha.model.audit.DateAudit;
 import ru.telegin.birzha.model.market.Market;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stocks")
 public class Stock extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
